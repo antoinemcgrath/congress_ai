@@ -62,9 +62,6 @@ def twitter_rates():
             if remaining < 2:
                 print("  Twitter requests remaining are just", remaining, "for API queries to", akey)
                 print("Reset is:", reset)
-
-
-
 twitter_rates()
 
 
@@ -255,7 +252,7 @@ for country in all_json:
     if country['code'].lower() == start_ahead_at:
         start = True
         print("Starting")
-    while start == True:
+    if start == True:
         branches = country['legislatures']
         for branch in branches:
             link = branch['popolo_url']
