@@ -37,7 +37,13 @@ def add_URL(collObject, unique_check, entry):
     if found == 0:
         collObject.insert(entry)
     else:
-        print("DUPLICATE URL_Base was found in DB collection", found)
+        print("DUPLICATE URL_Base was found in DB collection", found)        
+        key = {'URL_Base': unique_check}
+        update_details = {'$addToSet':{'Source_Sha256_1024chunk': { '$each': entry['Source_Sha256_1024chunk']}}}
+            #'$set': {'name': {'first': 'Marie', 'last': 'Bender'}},
+            
+                
+        collObject.update(key, update_details, upsert=True)
         return (False)
 
 
@@ -48,6 +54,9 @@ def pushURL(data_base, Sha256_1024chunk, line):
     #URL_Wayback_New = "https://web.archive.org/save/" + URL_Base
     Date_Added = tools.current_unix_time()
     URL_Base = re.sub('.*archive.org\/web\/\d*/', '', line)
+    URL_Base = re.sub('.*archive.org\/save\/_embed\/', '', URL_Base)
+    URL_Base = re.sub('.*archive.org\/save\/', '', URL_Base)
+    URL_Base = re.sub('.*archive.org\/web\/', '', URL_Base)
     #URL_Wayback_First = "https://web.archive.org/web/0/" + URL_Base
     #URL_Wayback_Latest = "https://web.archive.org/web/" + URL_Base
     item4db = { "Date_Added": Date_Added,
@@ -56,9 +65,8 @@ def pushURL(data_base, Sha256_1024chunk, line):
                 #"URL_Wayback_first": URL_Wayback_First,
                 #"URL_Wayback_Latest": URL_Wayback_Latest
                 #"URL_Wayback_New": URL_Wayback_New
-                "Source_Sha256_1024chunk": Sha256_1024chunk
+                "Source_Sha256_1024chunk": [Sha256_1024chunk]
     }
-
     add_URL(urlsObject, item4db['URL_Base'], item4db)
 
 def update_byte(data_base, Sha256_1024chunk, Reading_Byte):
