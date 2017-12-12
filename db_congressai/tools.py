@@ -1,20 +1,37 @@
 ''' tools '''
+import dbcontrols
+import sys
+import hashlib
 
-def sha256_file(a_file):
-    import sys
-    import hashlib
+def Sha256_1024chunk(a_file):
     # Make a hash object
     h = hashlib.sha256()
     # Open file for reading in binary mode
     with open(a_file,'rb') as file:
         # Loop till the end of the file
         chunk = 0
+        chunk = file.read(1024)
+        h.update(chunk)
+    # Return the hex representation of digest
+    print(h.hexdigest())
+    return h.hexdigest()
+
+def Sha256_file(a_file):
+    # Make a hash object
+    h = hashlib.sha256()
+    # Open file for reading in binary mode
+    with open(a_file,'rb') as file:
+        # Loop till the end of the file
+        chunk = 0
+        # Entire file
         while chunk != b'':
            # Read 1024 bytes at a time
            chunk = file.read(1024)
            h.update(chunk)
     # Return the hex representation of digest
+    print(h.hexdigest())
     return h.hexdigest()
+
 
 
 def current_unix_time():
@@ -22,12 +39,10 @@ def current_unix_time():
     unix_time = time.time()
     return(unix_time)
 
-
 def unix_to_readable_time(unix_time):
     from datetime import datetime
     readable_time = datetime.fromtimestamp(float(unix_time)).isoformat()
     return(readable_time)
-
 
 def query_yes_no(question, default=None):
     import sys
@@ -61,5 +76,19 @@ def query_yes_no(question, default=None):
 
 def filetype_magic(Filepath):
     import magic #pip3 install python-magic #https://github.com/ahupp/python-magic
-    Filetype = magic.from_file(Filepath)
-    return(Filetype)
+    Filetype_file = magic.from_file(Filepath)
+    #Filetype_buffer = magic.from_buffer(open(Filepath).read(1024))
+    Filetype_mime = magic.from_file(Filepath, mime=True)
+    return(Filetype_file,Filetype_mime)
+
+
+def readfile(data_base, item4db, Reading_Byte):
+    with open(item4db['Filepath'], "r") as File:
+        File.seek(Reading_Byte)
+        for line in File:
+            print(line)
+            Reading_Byte += len(line)
+            line = line.rstrip()
+            dbcontrols.pushURL(data_base, item4db['Sha256_1024chunk'], line)
+            dbcontrols.update_byte(data_base, item4db['Sha256_1024chunk'], Reading_Byte)
+
