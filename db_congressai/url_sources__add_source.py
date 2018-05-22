@@ -3,6 +3,8 @@ import tools      #tools.py
 import sys
 import time
 
+
+
 # Connect to DB and collection
 dbname = "congressai"
 collection = "url_sources"
@@ -21,11 +23,11 @@ Filename = Filepath.split("/")[-1]
 unique_check = dbcontrols.unique_check(url_sourcesObject, Filename, "Filename")
 
 # Filename is unique it does not exist in collection, create file metadata
-if unique_check == True: 
+if unique_check == True:
     Sha256_1024chunk = tools.Sha256_1024chunk(Filepath)
+    Sha256_file = tools.Sha256_file(Filepath)
     Filetypes = tools.filetype_magic(Filepath)
-    Filetype_file = Filetypes[0]
-    Filetype_mime = Filetypes[1]
+    Filetype_file, Filetype_mime = Filetypes
     print("Filetype is:", Filetype_file, Filetype_mime)
     Date_Added = tools.current_unix_time()
     Reading_Byte = 0
@@ -37,13 +39,14 @@ if unique_check == True:
 
     item4db = { "Filename": Filename,
                 "Filepath": Filepath,
-                "Sha256_1024chunk": Sha256_1024chunk,  
+                "Sha256_1024chunk": Sha256_1024chunk,
+                "Sha256_file": Sha256_file,
                 "Filetype_file": Filetype_file,
                 "Filetype_mime": Filetype_file,
-                "Reading_Byte": Reading_Byte,             
-                "Date_Added":Date_Added,   
-                "Source": Source, 
-                "Inputer": Inputer,  
+                "Reading_Byte": Reading_Byte,
+                "Date_Added":Date_Added,
+                "Source": Source,
+                "Inputer": Inputer,
                 "Details": Details }
     proceed = dbcontrols.add_url_sources(url_sourcesObject, item4db['Sha256_1024chunk'], item4db)
     if proceed == False:
@@ -51,7 +54,7 @@ if unique_check == True:
         sys.exit()
 
 
-# Filename exists, reuse file metadata 
+# Filename exists, reuse file metadata
 else:
     time.sleep(1)
     print('\n' + str(unique_check) + '\n')

@@ -2,6 +2,8 @@
 import dbcontrols
 import sys
 import hashlib
+import magic #pip3 install python-magic #https://github.com/ahupp/python-magic
+
 
 def Sha256_1024chunk(a_file):
     # Make a hash object
@@ -45,7 +47,6 @@ def unix_to_readable_time(unix_time):
     return(readable_time)
 
 def query_yes_no(question, default=None):
-    import sys
     """Ask a yes/no question via raw_input() and return their answer.
     "question" is a string that is presented to the user.
     "default" is the presumed answer if the user just hits <Enter>.
@@ -75,11 +76,10 @@ def query_yes_no(question, default=None):
                              "(or 'y' or 'n').\n")
 
 def filetype_magic(Filepath):
-    import magic #pip3 install python-magic #https://github.com/ahupp/python-magic
     Filetype_file = magic.from_file(Filepath)
     #Filetype_buffer = magic.from_buffer(open(Filepath).read(1024))
     Filetype_mime = magic.from_file(Filepath, mime=True)
-    return(Filetype_file,Filetype_mime)
+    return(Filetype_file, Filetype_mime)
 
 
 def readfile(data_base, item4db, Reading_Byte):

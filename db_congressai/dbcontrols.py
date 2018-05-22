@@ -1,13 +1,13 @@
 ''' dbcontols for mongo database'''
 #from pymongo import MongoClient
 import tools
-import pymongo 
+import pymongo
 import re
 
 
 def getCollection(dbname):
     client = pymongo.MongoClient()             #client.close()
-    data_base = getattr(client, dbname)   
+    data_base = getattr(client, dbname)
     return(data_base)     #data_base.logout()
 
 def unique_check(collObject, unique_check, var):
@@ -37,12 +37,12 @@ def add_URL(collObject, unique_check, entry):
     if found == 0:
         collObject.insert(entry)
     else:
-        print("DUPLICATE URL_Base was found in DB collection", found)        
+        print("DUPLICATE URL_Base was found in DB collection", found)
         key = {'URL_Base': unique_check}
         update_details = {'$addToSet':{'Source_Sha256_1024chunk': { '$each': entry['Source_Sha256_1024chunk']}}}
             #'$set': {'name': {'first': 'Marie', 'last': 'Bender'}},
-            
-                
+
+
         collObject.update(key, update_details, upsert=True)
         return (False)
 
@@ -73,11 +73,10 @@ def update_byte(data_base, Sha256_1024chunk, Reading_Byte):
     #Connect to DB and collection
     collection = "url_sources"
     url_sourcesObject = getattr(data_base, collection)
-    
+
     unique_check = url_sourcesObject.update_one({
     "Sha256_1024chunk": Sha256_1024chunk
     },{
         '$set': {
             'Reading_Byte': Reading_Byte
             }}, upsert=False)
-    
