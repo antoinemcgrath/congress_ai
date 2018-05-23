@@ -47,6 +47,7 @@ def unix_to_readable_time(unix_time):
     return(readable_time)
 
 def query_yes_no(question, default=None):
+    import sys
     """Ask a yes/no question via raw_input() and return their answer.
     "question" is a string that is presented to the user.
     "default" is the presumed answer if the user just hits <Enter>.
