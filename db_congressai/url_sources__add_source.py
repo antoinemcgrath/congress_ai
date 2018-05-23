@@ -44,7 +44,7 @@ if unique_check == True:
                 "Sha256_1024chunk": Sha256_1024chunk,
                 "Sha256_file": Sha256_file,
                 "Filetype_file": Filetype_file,
-                "Filetype_mime": Filetype_file,
+                "Filetype_mime": Filetype_mime,
                 "Reading_Byte": Reading_Byte,
                 "Date_Added":Date_Added,
                 "Source": Source,
