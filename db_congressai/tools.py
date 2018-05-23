@@ -47,7 +47,6 @@ def unix_to_readable_time(unix_time):
     return(readable_time)
 
 def query_yes_no(question, default=None):
-    import sys
     """Ask a yes/no question via raw_input() and return their answer.
     "question" is a string that is presented to the user.
     "default" is the presumed answer if the user just hits <Enter>.
@@ -67,8 +66,8 @@ def query_yes_no(question, default=None):
         raise ValueError("invalid default answer: '%s'" % default)
     while True:
         sys.stdout.write(question + prompt)
-        choice = str(input()).lower()
-        if default is not None and choice == '':
+        choice = str('"'+input()+'"').lower()
+        if default is not None and choice == "":
             return valid[default]
         elif choice in valid:
             return valid[choice]
