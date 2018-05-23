@@ -17,7 +17,7 @@ print('\n' + "Thank you for submitting a list of URLs" + '\n')
 
 # Locate file containing URL list
 Filepath = input("Drag file here or otherwise specify it's filepath: ")
-Filepath = Filepath.replace("\\","")
+Filepath = Filepath.replace("\\","").strip()
 #Filepath =  '"' + Filepath +'"'
 Filename = Filepath.split("/")[-1]
 

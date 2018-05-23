@@ -39,7 +39,7 @@ def add_URL(collObject, unique_check, entry):
     else:
         print("DUPLICATE URL_Base was found in DB collection", found)
         key = {'URL_Base': unique_check}
-        update_details = {'$addToSet':{'Source_Sha256_1024chunk': { '$each': entry['Source_Sha256_1024chunk']}}}
+        update_details = {'$addToSet':{'Sha256_sources': { '$each': entry['Sha256_sources']}}}
             #'$set': {'name': {'first': 'Marie', 'last': 'Bender'}},
 
 
@@ -47,7 +47,7 @@ def add_URL(collObject, unique_check, entry):
         return (False)
 
 
-def pushURL(data_base, Sha256_1024chunk, line):
+def pushURL(data_base, Sha256_file, line):
     #Connect to DB and collection
     collection = "urls"
     urlsObject = getattr(data_base, collection)
@@ -65,7 +65,7 @@ def pushURL(data_base, Sha256_1024chunk, line):
                 #"URL_Wayback_first": URL_Wayback_First,
                 #"URL_Wayback_Latest": URL_Wayback_Latest
                 #"URL_Wayback_New": URL_Wayback_New
-                "Source_Sha256_1024chunk": [Sha256_1024chunk]
+                "Sha256_sources": [Sha256_file]
     }
     add_URL(urlsObject, item4db['URL_Base'], item4db)
 

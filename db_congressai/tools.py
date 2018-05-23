@@ -66,7 +66,7 @@ def query_yes_no(question, default=None):
         raise ValueError("invalid default answer: '%s'" % default)
     while True:
         sys.stdout.write(question + prompt)
-        choice = input().lower()
+        choice = input().lower().strip()
         if default is not None and choice == "":
             return valid[default]
         elif choice in valid:
@@ -89,6 +89,6 @@ def readfile(data_base, item4db, Reading_Byte):
             print(line)
             Reading_Byte += len(line)
             line = line.rstrip()
-            dbcontrols.pushURL(data_base, item4db['Sha256_1024chunk'], line)
+            dbcontrols.pushURL(data_base, item4db['Sha256_file'], line)
             dbcontrols.update_byte(data_base, item4db['Sha256_1024chunk'], Reading_Byte)
 
