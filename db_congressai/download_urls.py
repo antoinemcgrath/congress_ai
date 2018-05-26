@@ -2,6 +2,8 @@
 Creates in URLs Collection
 
 Dowloads
+#### Variables to be included depend on results:
+#### https://docs.google.com/spreadsheets/d/1IS0OB5vG_GRahJadPmhnqrlaefCDumX8U5SUZ_P226A/edit?usp=sharing
   IAold            -epoch
   sha_IAold        -sha
   IAnew            -epoch
